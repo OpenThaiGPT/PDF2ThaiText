@@ -202,20 +202,19 @@ def process_pdf(pdf_file, directory):
 
     output_after_mapping = "./html_output/after_mapping/"
     os.makedirs(output_after_mapping, exist_ok=True)
-    with open(f'{output_after_mapping}/{pdf_file}.html', 'w') as outputf:
-        with open(f'{output_path}/{pdf_file}.html', 'r') as inputf:
+    with open(f'{output_after_mapping}/{pdf_file}.html', 'w', encoding="utf-8") as outputf:
+        with open(f'{output_path}/{pdf_file}.html', 'r', encoding="utf-8") as inputf:
             for line in inputf:
                 text = p.sub(lambda match: thaiPUA(f'{output_after_mapping}/{pdf_file}', match), line)
                 outputf.writelines(html.unescape(text))
-
     # Convert HTML to raw text
-    with open(f'{output_after_mapping}/{pdf_file}.html', 'r') as inputf:
+    with open(f'{output_after_mapping}/{pdf_file}.html', 'r', encoding="utf-8") as inputf:
         text = inputf.read()
 
     text = process_text(text)
     raw_txt_output = "./raw_txt_output/"
     os.makedirs(raw_txt_output, exist_ok=True)
-    with open(f'{raw_txt_output}{pdf_file}.txt', 'w') as outputf:
+    with open(f'{raw_txt_output}{pdf_file}.txt', 'w', encoding="utf-8") as outputf:
         outputf.write(text)
 
     return f'{raw_txt_output}{pdf_file}.txt'
@@ -292,7 +291,8 @@ def main():
     directory = args.directory
     list_of_pdf = os.listdir(args.directory)
     list_of_pdf = [x for x in list_of_pdf if x.endswith('.pdf')]
-    list_of_name = [f"{x.split('.')[0]}.{x.split('.')[1]}.{x.split('.')[2]}" for x in list_of_pdf]
+    # list_of_name = [f"{x.split('.')[0]}.{x.split('.')[1]}.{x.split('.')[2]}" for x in list_of_pdf]
+    list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]
 
     # Multithreading for processing PDFs
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
