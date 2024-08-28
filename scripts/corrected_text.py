@@ -63,14 +63,14 @@ def correct_text(txt_file):
         print(f"Count wrong word in {txt_file} : {count_wrong_word}/{all_word} % = {count_wrong_word/all_word*100}" )
     
     all_text_lines = "\n".join(all_lines)
-    correct_txt_output = "../corrected_txt_output/"
+    correct_txt_output = "./corrected_txt_output/"
     os.makedirs(correct_txt_output, exist_ok=True)
 
     with open(f'{correct_txt_output}{txt_file.split("/")[-1]}', 'w', encoding='utf-8') as f:
         f.write(all_text_lines)
 
 if __name__ == "__main__":
-    path_to_output = "../raw_txt_output/"
+    path_to_output = "./raw_txt_output/"
     list_of_name = os.listdir(path_to_output)
     list_of_raw_txts = [f"{path_to_output}{txt_file}" for txt_file in list_of_name]
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:

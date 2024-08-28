@@ -13,17 +13,33 @@ def convert_pdf_to_html(directory,list_of_name):
         pdf_file = list_of_name[num]
         path_to_pdf_file = f'{directory}/{pdf_file}.pdf'
         input_format = '--input='+path_to_pdf_file
-        output_path = "../html_output"
-        os.makedirs(output_path, exist_ok=True)
+        output_path = "./html_output"
+        xx = os.makedirs(output_path, exist_ok=True)
         # คำสั่งที่ต้องการรัน
-        command = ['java', '-jar', '../src/pdf_reader/pdfbox-app-3.0.2.jar', 'export:text', '-html', input_format, f'--output={output_path}/{list_of_name[num]}.html']
+        command = ['java', '-jar', './src/pdf_reader/pdfbox-app-3.0.2.jar', 'export:text', '-html', input_format, f'--output={output_path}/{list_of_name[num]}.html']
 
         # รันคำสั่งและเก็บผลลัพธ์
         subprocess.run(command, capture_output=True, text=True)
         return output_path
     
 def thaiPUA(matchobj):
-    return PUA[matchobj.group(1)]
+    try:
+        return PUA[matchobj.group(1)]
+    except Exception as e:
+        error_message = str(e)
+
+        try:
+            with open('./error_log.txt', 'r', encoding='utf-8') as file:
+                error_logs = file.readlines()
+        except FileNotFoundError:
+            error_logs = []
+
+        if error_message + '\n' not in error_logs:
+            with open('./error_log.txt', 'a', encoding='utf-8') as file:
+                file.write(error_message + '\n')
+
+        print(error_message)
+        return None 
 
 
 def map_error(output_path,list_of_name):
@@ -42,8 +58,8 @@ def map_error(output_path,list_of_name):
 def convert_html_to_txt(after_map,list_of_name):
     for num in range(len(list_of_name)):
         text = extract_text_from_html(after_map)
-        os.makedirs('../raw_txt_output', exist_ok=True)
-        with open(f'../raw_txt_output/{list_of_name[num]}.txt', 'w', encoding='utf-8') as outputf:
+        os.makedirs('./raw_txt_output', exist_ok=True)
+        with open(f'./raw_txt_output/{list_of_name[num]}.txt', 'w', encoding='utf-8') as outputf:
             outputf.write(text)
 
 
@@ -61,6 +77,7 @@ if __name__ == "__main__":
     list_of_pdf = os.listdir(args.directory)
     list_of_pdf = [x for x in list_of_pdf if x.endswith('.pdf')]
     list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]
-
+    
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
         futures = {executor.submit(process_pdf_to_raw_txt,directory,list_of_name): pdf_file for pdf_file in list_of_pdf}
+  
