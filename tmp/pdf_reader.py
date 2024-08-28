@@ -291,7 +291,6 @@ def main():
     directory = args.directory
     list_of_pdf = os.listdir(args.directory)
     list_of_pdf = [x for x in list_of_pdf if x.endswith('.pdf')]
-    # list_of_name = [f"{x.split('.')[0]}.{x.split('.')[1]}.{x.split('.')[2]}" for x in list_of_pdf]
     list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]
 
     # Multithreading for processing PDFs

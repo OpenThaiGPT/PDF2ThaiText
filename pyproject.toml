@@ -1,0 +1,18 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+
+[project]
+name = "pdf_reader"
+version = "0.1.0"
+description = "the best pdf reader in the universe"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "tqdm",
+    "thaispellcheck",
+    "attacut",
+]
