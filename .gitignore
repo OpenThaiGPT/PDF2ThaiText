@@ -1,3 +1,7 @@
 scripts/__pycache__
 src/pdf_reader/__pycache__
 src/pdf_reader.egg-info
+
+raw_txt_output/
+html_output/
+corrected_txt_output/
