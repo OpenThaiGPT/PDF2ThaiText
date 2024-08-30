@@ -11,6 +11,10 @@ python scripts/convert_pdf_to_html.py /path/to/pdf
 python scripts/corrected_text.py
 ```
 
+- **Convert** PDF to correct text : create 1 dir "corrected_txt_output"
+```bash
+python scripts/convert_pdf_to_text.py /path/to/pdf
+
 ## Setup
 1.Clone the repository
 ```bash
