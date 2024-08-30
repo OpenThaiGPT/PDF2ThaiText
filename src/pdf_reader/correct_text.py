@@ -68,17 +68,6 @@ def correct_text(txt_file):
     os.makedirs(correct_txt_output, exist_ok=True)
 
     with open(f'{correct_txt_output}{txt_file.split("/")[-1]}', 'w', encoding='utf-8') as f:
-<<<<<<< HEAD:src/pdf_reader/correct_text.py
-        f.write(all_text_lines)
-=======
         f.write(all_text_lines)
 
-if __name__ == "__main__":
-    path_to_output = "./raw_txt_output/"
-    list_of_name = os.listdir(path_to_output)
-    list_of_raw_txts = [f"{path_to_output}{txt_file}" for txt_file in list_of_name]
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = [executor.submit(correct_text, txt_file) for txt_file in list_of_raw_txts]
-        for future in as_completed(futures):
-            future.result()
->>>>>>> 0d49f6ec22c4eb0d93ac237b4749e1b135a7b113:scripts/corrected_text.py
+
