@@ -20,7 +20,7 @@ if __name__ == "__main__":
         for future in as_completed(futures):
             future.result()
 
-    path_to_raw_txt = "../raw_txt_output/"    
+    path_to_raw_txt = "./raw_txt_output/"    
     txt_files = os.listdir(path_to_raw_txt)
     txt_files = [f"{path_to_raw_txt}{txt_file}" for txt_file in txt_files]
 

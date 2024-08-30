@@ -13,6 +13,7 @@ if __name__ == "__main__":
     list_of_pdf = os.listdir(args.directory)
     list_of_pdf = [x for x in list_of_pdf if x.endswith('.pdf')]
     list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]
-
+    
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
         futures = {executor.submit(process_pdf_to_raw_txt,directory,list_of_name): pdf_file for pdf_file in list_of_pdf}
+  
