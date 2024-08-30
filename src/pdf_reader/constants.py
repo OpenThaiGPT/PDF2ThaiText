@@ -1,5 +1,7 @@
 from html.parser import HTMLParser
 
+PATH_TO_PDF_BOX = 'pdfbox-app-3.0.3.jar'
+
 PUA = {
     '63233': '&#3636;',  # Sara I (สระ อิ)
     '63234': '&#3637;',  # Sara Ii (สระ อี)

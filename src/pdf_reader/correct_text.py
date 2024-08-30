@@ -1,10 +1,11 @@
 import re
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from tqdm import tqdm
 import thaispellcheck
 from attacut import tokenize
 from pdf_reader.check_n_shift_tone import check_tone_vowel_sentence, check_tone_vowel_word
-from tqdm import tqdm
+
 def correct_text(txt_file):
     count_wrong_word = 0
     all_word = 0
@@ -68,12 +69,3 @@ def correct_text(txt_file):
 
     with open(f'{correct_txt_output}{txt_file.split("/")[-1]}', 'w', encoding='utf-8') as f:
         f.write(all_text_lines)
-
-if __name__ == "__main__":
-    path_to_output = "../raw_txt_output/"
-    list_of_name = os.listdir(path_to_output)
-    list_of_raw_txts = [f"{path_to_output}{txt_file}" for txt_file in list_of_name]
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = [executor.submit(correct_text, txt_file) for txt_file in list_of_raw_txts]
-        for future in as_completed(futures):
-            future.result()

@@ -1,6 +1,6 @@
 import argparse
 from convert_pdf_to_html import process_pdf_to_raw_txt
-from corrected_text import correct_text
+from scripts.correct_text import correct_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
