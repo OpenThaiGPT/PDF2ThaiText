@@ -13,7 +13,7 @@ python scripts/corrected_text.py
 
 - **Convert** PDF and **Correct** Text : create 3 dirs 1.html_output 2.raw_txt_output 3.corrected_txt_output"
 ```bash
-python scripts/corrected_text.py
+python scripts/convert_pdf_to_text.py /path/to/pdf
 ```
 
 ## Setup
