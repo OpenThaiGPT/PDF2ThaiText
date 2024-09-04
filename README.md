@@ -1,4 +1,4 @@
-# pdf-reader
+# PDF-To-ThaiText
 PDF-Reader convert your PDF files to html and raw txt, And contain Function for correcting your raw txt.
 ## How to use
 - **Convert** PDF to HTML and RAW text : create 2 dirs 1.html_output 2.raw_txt_output

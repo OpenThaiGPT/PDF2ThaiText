@@ -53,32 +53,37 @@ def map_error(output_path, list_of_name):
         list_of_name (list): รายการชื่อไฟล์ HTML ที่ต้องการแปลง
     
     Returns:
-        str: ข้อความที่ได้รับการแปลงรหัส PUA เป็น Unicode แล้ว
+        after_map (lst) : ลิสต์ของข้อความที่ได้รับการแปลงรหัส PUA เป็น Unicode แล้ว
     """
     p = re.compile(r'\&\#(6\d{4,})\;')  # รูปแบบ regex สำหรับจับรหัส PUA
 
+    after_map = []
+    
+    print("Count file :",len(list_of_name))
     for num in range(len(list_of_name)):
         inputf = open(f'{output_path}/{list_of_name[num]}.html', 'r')
-        after_map = []
+        text_after_map = []
+        print(f"Processing {list_of_name[num]}.html")
         for line in inputf:
             text = p.sub(thai_pua, line)  # แทนที่รหัส PUA ด้วยตัวอักษร Unicode
-            after_map.append(html.unescape(text))  # แปลง HTML entities เป็นตัวอักษร
+            text_after_map.append(html.unescape(text))  # แปลง HTML entities เป็นตัวอักษร
         inputf.close()
-        return "".join(after_map)
+        after_map.append(''.join(text_after_map))
+    return after_map
 
 def convert_html_to_txt(after_map, list_of_name):
     """
     ฟังก์ชันนี้ใช้สำหรับแปลงข้อความในรูปแบบ HTML เป็นไฟล์ข้อความ (.txt)
 
     Args:
-        after_map (str): ข้อความ HTML ที่ได้รับการแปลงรหัส PUA เป็น Unicode แล้ว
+        after_map (lst): ลิสต์ของข้อความ HTML ที่ได้รับการแปลงรหัส PUA เป็น Unicode แล้ว
         list_of_name (list): รายการชื่อไฟล์ที่ต้องการแปลง
     
     Returns:
         None: สร้างไฟล์ .txt ที่มีข้อความที่แปลงแล้ว
     """
     for num in range(len(list_of_name)):
-        text = map_text_from_html(after_map)  # ดึงข้อความจาก HTML และแก้ไข
+        text = map_text_from_html(after_map[num])  # ดึงข้อความจาก HTML และแก้ไข
         os.makedirs('./raw_txt_output', exist_ok=True)  # สร้างโฟลเดอร์สำหรับเก็บไฟล์ข้อความถ้ายังไม่มี
         with open(f'./raw_txt_output/{list_of_name[num]}.txt', 'w', encoding='utf-8') as outputf:
             outputf.write(text)
