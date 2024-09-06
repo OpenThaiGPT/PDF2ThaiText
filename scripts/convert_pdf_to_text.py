@@ -1,6 +1,6 @@
 import argparse
-from pdf_reader.pdf_to_raw_txt import process_pdf_to_raw_txt
-from pdf_reader.correct_text import correct_text
+from pdf2thaitext.pdf_to_raw_txt import process_pdf_to_raw_txt
+from pdf2thaitext.correct_text import correct_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 

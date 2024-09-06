@@ -1,6 +1,6 @@
 scripts/__pycache__
-src/pdf_reader/__pycache__
-src/pdf_reader.egg-info
+src/pdf2thaitext/__pycache__
+src/pdf2thaitext.egg-info
 
 raw_txt_output/
 html_output/

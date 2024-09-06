@@ -1,6 +1,6 @@
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pdf_reader.correct_text import correct_text
+from pdf2thaitext.correct_text import correct_text
 
 if __name__ == "__main__":
     """

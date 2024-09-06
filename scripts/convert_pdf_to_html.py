@@ -1,7 +1,7 @@
 import os
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pdf_reader.pdf_to_raw_txt import process_pdf_to_raw_txt
+from pdf2thaitext.pdf_to_raw_txt import process_pdf_to_raw_txt
 
 if __name__ == "__main__":
     """

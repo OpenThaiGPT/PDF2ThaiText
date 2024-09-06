@@ -3,8 +3,8 @@ import re
 import html
 import subprocess
 
-from pdf_reader.constants import PUA, PATH_TO_PDF_BOX
-from pdf_reader.html_text_utils import map_text_from_html
+from pdf2thaitext.constants import PUA, PATH_TO_PDF_BOX
+from pdf2thaitext.html_text_utils import map_text_from_html
 
 def convert_pdf_to_html(directory, list_of_name):
     """

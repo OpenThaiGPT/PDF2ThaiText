@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm  # ใช้สำหรับแสดงแถบความคืบหน้าในกระบวนการประมวลผล
 import thaispellcheck  # ไลบรารีสำหรับตรวจสอบคำผิดในภาษาไทย
 from attacut import tokenize  # ไลบรารีสำหรับการตัดคำในภาษาไทย
-from pdf_reader.check_n_shift_tone import check_tone_vowel_sentence, check_tone_vowel_word  # ฟังก์ชันตรวจสอบและแก้ไขวรรณยุกต์และสระ
+from pdf2thaitext.check_n_shift_tone import check_tone_vowel_sentence, check_tone_vowel_word  # ฟังก์ชันตรวจสอบและแก้ไขวรรณยุกต์และสระ
 
 def correct_text(txt_file):
     """
