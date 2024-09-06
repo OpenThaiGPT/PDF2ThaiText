@@ -1,7 +1,10 @@
 scripts/__pycache__
-src/pdf_reader/__pycache__
-src/pdf_reader.egg-info
+src/pdf2thaitext/__pycache__
+src/pdf2thaitext.egg-info
 
 raw_txt_output/
 html_output/
 corrected_txt_output/
+
+sample_input/3-ก.พ.-2565+Academic_110821_091216.pdf
+sample_input/11-ธ.ค.-2555+Academic_111212_152818.pdf

@@ -5,7 +5,7 @@ requires = [
 ]
 
 [project]
-name = "pdf_reader"
+name = "pdf2thaitext"
 version = "0.1.0"
 description = "the best pdf reader in the universe"
 readme = "README.md"

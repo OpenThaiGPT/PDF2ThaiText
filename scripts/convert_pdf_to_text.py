@@ -1,6 +1,6 @@
 import argparse
-from convert_pdf_to_html import process_pdf_to_raw_txt
-from pdf_reader.correct_text import correct_text
+from pdf2thaitext.pdf_to_raw_txt import process_pdf_to_raw_txt
+from pdf2thaitext.correct_text import correct_text
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
@@ -37,3 +37,5 @@ if __name__ == "__main__":
         futures = [executor.submit(correct_text, txt_file) for txt_file in txt_files]
         for future in as_completed(futures):
             future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
+    
+    print("เสร็จสิ้นการแปลงไฟล์ PDF เป็นไฟล์ข้อความดิบและแก้ไขข้อความ")
