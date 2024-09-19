@@ -11,7 +11,12 @@ if __name__ == "__main__":
     
     # ตั้งค่าคำสั่งในการใช้สคริปต์ผ่าน command-line
     parser = argparse.ArgumentParser(description="โปรแกรมที่แสดงรายการไฟล์ในโฟลเดอร์")
-    parser.add_argument('directory', type=str, help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์")
+    parser.add_argument(
+        '--directory',
+        type=str,
+        help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์"
+    )
+
     args = parser.parse_args()
 
     directory = args.directory  # กำหนดโฟลเดอร์ที่ต้องการใช้
@@ -27,3 +32,4 @@ if __name__ == "__main__":
         # รอให้ทุกฟังก์ชันที่ส่งไปใน future เสร็จสิ้นการทำงาน
         for future in as_completed(futures):
             result = future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
+

@@ -75,25 +75,10 @@ def check_tone_vowel_word(word):
             word (str): คำที่ต้องการเคลื่อนย้ายวรรณยุกต์และสระ
             marker_indices (list): รายการตำแหน่งของวรรณยุกต์และสระในคำ
             
-        Returns:
+        Returns:`
             set: เซ็ตของคำที่มีการเคลื่อนย้ายวรรณยุกต์และสระ
         """
         permutations = set()
-
-        def swap(word_list, i, j):
-            """
-            ฟังก์ชันย่อยนี้ใช้สำหรับสลับตำแหน่งของตัวอักษรในคำ
-            
-            Args:
-                word_list (list): รายการของตัวอักษรในคำ
-                i (int): ตำแหน่งแรกที่ต้องการสลับ
-                j (int): ตำแหน่งที่สองที่ต้องการสลับ
-                
-            Returns:
-                list: รายการของตัวอักษรที่ได้รับการสลับตำแหน่ง
-            """
-            word_list[i], word_list[j] = word_list[j], word_list[i]
-            return word_list
 
         # สร้างทุกความเป็นไปได้โดยการเคลื่อนย้ายแต่ละเครื่องหมายไปยังทุกตำแหน่งที่เป็นไปได้
         for i, idx in enumerate(marker_indices):

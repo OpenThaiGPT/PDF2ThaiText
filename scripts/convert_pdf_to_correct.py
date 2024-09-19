@@ -1,6 +1,7 @@
 import argparse
 from pdf2thaitext.pdf_to_raw_txt import process_pdf_to_raw_txt
 from pdf2thaitext.correct_text import correct_text
+from pdf2thaitext.llm_correct import correct_text_with_llm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
@@ -12,7 +13,29 @@ if __name__ == "__main__":
     
     # การตั้งค่าคำสั่งในการใช้สคริปต์
     parser = argparse.ArgumentParser(description="โปรแกรมที่แสดงรายการไฟล์ในโฟลเดอร์")
-    parser.add_argument('directory', type=str, help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์")
+    parser.add_argument(
+        '--directory',
+        type=str,
+        help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์"
+    )
+    parser.add_argument(
+        '--with-llm',
+        type=str,
+        default="",
+        help="ใส่ KEY เพื่อใช้โมเดล LLM ในการแก้ไขข้อความ (ไม่ใส่ KEY หมายถึงไม่ใช้ LLM)"
+    )
+    parser.add_argument(
+        '--method',
+        type=str,
+        default="page",
+        help="วิธีการแก้ไขข้อความ (page, sentence)"
+    )
+    parser.add_argument(
+        '--model',
+        type=str,
+        default="llama-3.1-70b-versatile",
+        help="ชื่อโมเดลที่ใช้ในการแก้ไขข้อความ"
+    )
     args = parser.parse_args()
 
     directory = args.directory  # โฟลเดอร์ที่ระบุโดยผู้ใช้
@@ -30,12 +53,19 @@ if __name__ == "__main__":
     path_to_raw_txt = "./raw_txt_output/"  # เส้นทางไปยังโฟลเดอร์ที่เก็บไฟล์ข้อความดิบ
     txt_files = os.listdir(path_to_raw_txt)  # ดึงรายการชื่อไฟล์ทั้งหมดในโฟลเดอร์ที่กำหนด
     txt_files = [f"{path_to_raw_txt}{txt_file}" for txt_file in txt_files]  # สร้างรายการเส้นทางไฟล์ข้อความทั้งหมด
-
-    # ใช้ Multithreading เพื่อแก้ไขข้อความ
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
-        futures = [executor.submit(correct_text, txt_file) for txt_file in txt_files]
-        for future in as_completed(futures):
-            future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
     
-    print("เสร็จสิ้นการแปลงไฟล์ PDF เป็นไฟล์ข้อความดิบและแก้ไขข้อความ")
+    if args.with_llm == "":  # ถ้าไม่ใช้โมเดล LLM
+        # ใช้ Multithreading เพื่อแก้ไขข้อความ
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
+            futures = [executor.submit(correct_text, txt_file) for txt_file in txt_files]
+            for future in as_completed(futures):
+                future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
+        
+        print("เสร็จสิ้นการแปลงไฟล์ PDF เป็นไฟล์ข้อความดิบและแก้ไขข้อความ")
+    else:
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
+            futures = [executor.submit(correct_text_with_llm, txt_file) for txt_file in txt_files]
+            for future in as_completed(futures):
+                future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
