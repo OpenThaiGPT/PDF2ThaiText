@@ -29,6 +29,12 @@ if __name__ == "__main__":
         default="llama-3.1-70b-versatile",
         help="ชื่อโมเดลที่ใช้ในการแก้ไขข้อความ"
     )
+    parser.add_argument(
+        '--num-proc',
+        type=int,
+        default=os.cpu_count(),
+        help="จำนวนเธรดที่ใช้ในการประมวลผลข้อมูล"
+    )
     args = parser.parse_args()
 
     path_to_output = "../raw_txt_output/"  # เส้นทางไปยังโฟลเดอร์ที่เก็บไฟล์ข้อความที่ยังไม่ได้แก้ไข
@@ -37,7 +43,7 @@ if __name__ == "__main__":
     
     if args.with_llm == "":
         # ใช้ ThreadPoolExecutor เพื่อดำเนินการฟังก์ชัน correct_text แบบขนาน
-        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        with ThreadPoolExecutor(max_workers=args.num_proc) as executor:
             # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
             futures = [executor.submit(correct_text, txt_file) for txt_file in list_of_raw_txts]
             
@@ -45,7 +51,7 @@ if __name__ == "__main__":
             for future in as_completed(futures):
                 future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
     else:
-        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        with ThreadPoolExecutor(max_workers=args.num_proc) as executor:
             # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
             futures = [executor.submit(correct_text_with_llm, txt_file) for txt_file in txt_files]
             for future in as_completed(futures):

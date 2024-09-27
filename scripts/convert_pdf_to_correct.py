@@ -36,6 +36,12 @@ if __name__ == "__main__":
         default="llama-3.1-70b-versatile",
         help="ชื่อโมเดลที่ใช้ในการแก้ไขข้อความ"
     )
+    parser.add_argument(
+        '--num-proc',
+        type=int,
+        default=os.cpu_count(),
+        help="จำนวนเธรดที่ใช้ในการประมวลผลข้อมูล"
+    )
     args = parser.parse_args()
 
     directory = args.directory  # โฟลเดอร์ที่ระบุโดยผู้ใช้
@@ -44,7 +50,7 @@ if __name__ == "__main__":
     list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]  # ลบ .pdf ออกจากชื่อไฟล์
 
     # ใช้ Multithreading เพื่อประมวลผลไฟล์ PDF
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+    with ThreadPoolExecutor(max_workers=args.num_proc) as executor:
         # สร้าง futures สำหรับแต่ละไฟล์ PDF โดยเรียกใช้งานฟังก์ชัน process_pdf_to_raw_txt
         futures = {executor.submit(process_pdf_to_raw_txt, directory, list_of_name): pdf_file for pdf_file in list_of_pdf}
         for future in as_completed(futures):
@@ -56,7 +62,7 @@ if __name__ == "__main__":
     
     if args.with_llm == "":  # ถ้าไม่ใช้โมเดล LLM
         # ใช้ Multithreading เพื่อแก้ไขข้อความ
-        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        with ThreadPoolExecutor(max_workers=args.num_proc) as executor:
             # สร้าง futures สำหรับแต่ละไฟล์ข้อความในรายการ โดยเรียกใช้งานฟังก์ชัน correct_text
             futures = [executor.submit(correct_text, txt_file) for txt_file in txt_files]
             for future in as_completed(futures):
