@@ -54,6 +54,38 @@ def tonemarkSpace(matchobj):
     """
     return matchobj.group(1) + matchobj.group(2)
 
+def replace_patterns(text):
+    """
+    ฟังก์ชันนี้ใช้แทนที่รูปแบบที่ผิดด้วยรูปแบบที่ถูก
+
+    Args:
+        text (str): ข้อความที่ต้องการแทนที่รูปแบบที่ผิด
+    
+    Returns:
+        str: ข้อความที่แทนที่รูปแบบที่ผิดด้วยรูปแบบที่ถูกแล้ว
+    """
+    patterns = [
+        (r'([ก-ฮ])ํ า', r'\1ำ'),
+        (r'([ก-ฮ])่ า', r'\1่า'),
+        (r'([ก-ฮ])้ า', r'\1้า'),
+        (r'([ก-ฮ])๊ า', r'\1๊า'),
+        (r'([ก-ฮ])๋ า', r'\1๋า'),
+        (r'([ก-ฮ]) ำ', r'\1ำ'),
+        (r'([ก-ฮ])า ง', r'า\1ง'),
+        (r'([ก-ฮ])ื อ', r'\1ือ'),
+        (r'([ก-ฮ])\s้', r'\1้'),
+        (r'([ก-ฮ])\s่', r'\1่')
+    ]
+    
+    for pattern, replacement in patterns:
+        text = re.sub(pattern, replacement, text)
+    
+    text = text.replace(" า", "ำ")
+    text = text.replace("่ื", "ื่")
+    text = text.replace("้ื", "ื้")
+    
+    return text
+
 def map_text_from_html(text):
     """
     ฟังก์ชันนี้ใช้สำหรับแยกข้อความจาก HTML และแก้ไขการใช้วรรณยุกต์และสระให้ถูกต้อง

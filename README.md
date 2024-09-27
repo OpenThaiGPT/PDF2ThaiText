@@ -3,7 +3,7 @@ PDF-Reader convert your PDF files to html and raw txt, And contain Function for 
 ## How to use
 - **Convert** PDF to HTML and RAW text : create 2 dirs 1.html_output 2.raw_txt_output
 ```bash
-python scripts/convert_pdf_to_html.py /path/to/pdf
+python scripts/convert_pdf_to_raw.py /path/to/pdf
 ```
 
 - **Correct** Text in RAW text : create 1 dir "corrected_txt_output"
@@ -13,7 +13,7 @@ python scripts/corrected_text.py
 
 - **Convert** PDF and **Correct** Text : create 3 dirs 1.html_output 2.raw_txt_output 3.corrected_txt_output"
 ```bash
-python scripts/convert_pdf_to_text.py /path/to/pdf
+python scripts/convert_pdf_to_correct.py /path/to/pdf
 ```
 
 ## Setup

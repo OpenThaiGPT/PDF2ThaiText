@@ -11,7 +11,18 @@ if __name__ == "__main__":
     
     # ตั้งค่าคำสั่งในการใช้สคริปต์ผ่าน command-line
     parser = argparse.ArgumentParser(description="โปรแกรมที่แสดงรายการไฟล์ในโฟลเดอร์")
-    parser.add_argument('directory', type=str, help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์")
+    parser.add_argument(
+        '--directory',
+        type=str,
+        help="โฟลเดอร์ที่ต้องการแสดงรายการไฟล์"
+    )
+    parser.add_argument(
+        '--num-proc',
+        type=int,
+        default=os.cpu_count(),
+        help="จำนวนเธรดที่ใช้ในการประมวลผลข้อมูล"
+    )
+
     args = parser.parse_args()
 
     directory = args.directory  # กำหนดโฟลเดอร์ที่ต้องการใช้
@@ -20,10 +31,11 @@ if __name__ == "__main__":
     list_of_name = [x.replace(".pdf", "") for x in list_of_pdf]  # สร้างรายการชื่อไฟล์โดยตัด ".pdf" ออก
 
     # ใช้ ThreadPoolExecutor เพื่อประมวลผลไฟล์ PDF แบบขนาน
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+    with ThreadPoolExecutor(max_workers=args.num_proc) as executor:
         # สร้าง futures สำหรับแต่ละไฟล์ PDF โดยเรียกใช้งานฟังก์ชัน process_pdf_to_raw_txt
         futures = {executor.submit(process_pdf_to_raw_txt, directory, list_of_name): pdf_file for pdf_file in list_of_pdf}
 
         # รอให้ทุกฟังก์ชันที่ส่งไปใน future เสร็จสิ้นการทำงาน
         for future in as_completed(futures):
             result = future.result()  # ดึงผลลัพธ์จาก future (ในที่นี้คือไม่มีการนำผลลัพธ์ไปใช้ต่อ)
+
